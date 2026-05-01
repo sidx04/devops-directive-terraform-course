@@ -9,15 +9,15 @@ variable "region" {
 # EC2 Variables
 
 variable "ami" {
-  description = "Amazon machine image to use for ec2 instance"
+  description = "Amazon machine image to use for ec2 instance - Defaults to: Ubuntu 22.04 LTS amd64 us-east-1"
   type        = string
-  default     = "ami-011899242bb902164" # Ubuntu 20.04 LTS // us-east-1
+  default     = "ami-05e86b3611c60b0b4"
 }
 
 variable "instance_type" {
   description = "ec2 instance type"
   type        = string
-  default     = "t2.micro"
+  default     = "t3.micro"
 }
 
 # S3 Variables

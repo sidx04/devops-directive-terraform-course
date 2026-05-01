@@ -5,7 +5,7 @@ terraform {
   ## TO SWITCH FROM LOCAL BACKEND TO REMOTE AWS BACKEND
   #############################################################
   # backend "s3" {
-  #   bucket         = "devops-directive-tf-state" # REPLACE WITH YOUR BUCKET NAME
+  #   bucket         = "03-basics-remote-state" # REPLACE WITH YOUR BUCKET NAME
   #   key            = "03-basics/import-bootstrap/terraform.tfstate"
   #   region         = "us-east-1"
   #   dynamodb_table = "terraform-state-locking"
@@ -25,7 +25,7 @@ provider "aws" {
 }
 
 resource "aws_s3_bucket" "terraform_state" {
-  bucket        = "devops-directive-tf-state" # REPLACE WITH YOUR BUCKET NAME
+  bucket        = "03-basics-remote-state" # REPLACE WITH YOUR BUCKET NAME
   force_destroy = true
 }
 
@@ -37,7 +37,7 @@ resource "aws_s3_bucket_versioning" "terraform_bucket_versioning" {
 }
 
 resource "aws_s3_bucket_server_side_encryption_configuration" "terraform_state_crypto_conf" {
-  bucket        = aws_s3_bucket.terraform_state.bucket 
+  bucket = aws_s3_bucket.terraform_state.bucket
   rule {
     apply_server_side_encryption_by_default {
       sse_algorithm = "AES256"
@@ -46,7 +46,7 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "terraform_state_c
 }
 
 resource "aws_dynamodb_table" "terraform_locks" {
-  name         = "terraform-state-locking"
+  name         = "03-basics-terraform-state-lock"
   billing_mode = "PAY_PER_REQUEST"
   hash_key     = "LockID"
   attribute {
